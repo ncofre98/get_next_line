@@ -6,12 +6,11 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 20:00:24 by ncofre            #+#    #+#             */
-/*   Updated: 2021/03/10 17:44:42 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/03/11 19:50:27 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 /*
 **DESCRIPTION:
@@ -29,22 +28,24 @@
 int				get_next_line(int fd, char **line)
 {
 	static char 	*buf;
-	unsigned int 	i;
-	int	ret;
+	int			ret;
+	unsigned int	i;
 
 	if (!buf)
-		buf = (char*)malloc(sizeof(char) * BUFFER_SIZE + 1);
-	if (!buf)
-		return (-1);
-	read(fd, buf, BUFFER_SIZE);
+		if (!(buf = (char*)malloc(sizeof(char) * BUFFER_SIZE + 1)))
+			return (-1);
+	ret = read(fd, buf, BUFFER_SIZE);
 	buf[BUFFER_SIZE] = '\0';
 	i = 0;
-	ret = 1;
-	while (buf[i] != '\n' && buf[i] != EOF && buf[i])
+	while (buf[i])
+	{
+		if (buf[i] != '\n')
+			*line[i] = buf[i];
 		i++;
-	if (buf[i] == EOF)
-		ret = 0;
-	ft_strlcpy(*line, buf, BUFFER_SIZE + 1);
+	}
+	*line[i] = '\0';
+	if (ret > 0)
+		return (1);
 	if (ret == 0)
 		free(buf);
 	return (ret);
