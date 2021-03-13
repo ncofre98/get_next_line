@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 20:00:24 by ncofre            #+#    #+#             */
-/*   Updated: 2021/03/11 19:50:27 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/03/13 12:32:41 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ int				get_next_line(int fd, char **line)
 	while (buf[i])
 	{
 		if (buf[i] != '\n')
-			*line[i] = buf[i];
+			(&(**line))[i] = buf[i];
 		i++;
 	}
-	*line[i] = '\0';
+	(&(**line))[i] = '\0';
 	if (ret > 0)
 		return (1);
 	if (ret == 0)
