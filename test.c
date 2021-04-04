@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 20:04:30 by ncofre            #+#    #+#             */
-/*   Updated: 2021/03/13 12:20:34 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/03/17 19:24:25 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ int	main(void)
 		return (-1);
 	}
 	ret = 1;
-	while (ret != 0)
-	{
+	/*while (ret != 0)
+	  {*/
 		ret = get_next_line(fd, &line);
 		printf("%s", line);
-	}
+		/*}*/
 	printf("\n");
 	free(line);
 	close(fd);
