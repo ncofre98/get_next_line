@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:59:25 by ncofre            #+#    #+#             */
-/*   Updated: 2021/03/18 19:23:46 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/04/07 17:03:58 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,19 +97,6 @@ char		*ft_strjoin(char const *s1, char const *s2)
 	ft_memcpy(ptr, s1, s1_len + 1);
 	ft_strlcat(ptr, s2, s1_len + s2_len + 1);
 	return (ptr);
-}
-
-
-void	ft_bzero(void *s, size_t n)
-{
-	size_t i;
-
-	i = 0;
-	while (i < n)
-	{
-		*(char*)(s + i) = '\0';
-		i++;
-	}
 }
 
 char				*ft_substr(char const *s, unsigned int start, size_t len)

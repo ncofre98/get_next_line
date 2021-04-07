@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 20:00:24 by ncofre            #+#    #+#             */
-/*   Updated: 2021/04/04 18:28:20 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/04/07 17:10:33 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,39 +38,59 @@ char	*scmalloc(size_t size)
 	return (ptr);
 }
 
-int				get_next_line(int fd, char **line)
+void	ft_getfline(char *rem, char **line)
 {
-	t_buf			buf;
-	static char	*rem;
-	int			ret;
+	unsigned int	i;
+	unsigned int	start;
+	unsigned int	end;
 
-	if (!(buf.read = scmalloc(BUFFER_SIZE + 1)) || !(buf.line = scmalloc(1)))
-			return (-1);
-	if (rem && ft_strchr(rem, '\n'))
+	i = 0;
+	while (rem[i])
 	{
-		
-	}
-	else
-		while ((ret = read(fd, buf.read, BUFFER_SIZE)) >= 0 &&
-		   (!(ft_strchr(buf.read, '\n'))))
+		if (!start && rem[i] != '\n')
+			start = i;
+		else
 		{
-			buf.tmp = ft_strjoin(buf.line, buf.read);
-			free(buf.line);
-			buf.line = buf.tmp;
 		}
-	ft_strlcpy(*line, buf.line, ft_strlen(buf.line) + 1);
-	return (ft_ret(ret, buf.line, buf.read, buf.tmp, rem));
 }
 
-int	ft_splitrem(char *rem)
+
+
+int				get_next_line(int fd, char **line)
 {
+	static char	*rem;
+	char			*buf;
+	int			ret;
+
+	if (rem)
+	{
+		*line = ft_substr(rem, 0, ft_fnewline(rem));
+		buf.tmp = rem;
+		rem = ft_substr()
+	}
+	else
+	{
+		if (!(buf = scmalloc(BUFFER_SIZE + 1))))
+			return (-1);
+		while ((ret = buf(fd, buf, BUFFER_SIZE)) >= 0 &&
+		   (!(ft_strchr(buf, '\n'))))
+		{
+			buf.tmp = ft_strjoin(line, buf);
+			free(line);
+			line = buf.tmp;
+		}
+	}
+	return (ft_ret(ret, line, buf, buf.tmp, rem));
 }
 
 int	ft_ret(int ret, char *line, char *read, char *tmp, static char *rem)
 {
-	free(line);
-	free(read);
-	free(tmp);
+	if (line)
+		free(line);
+	if (read)
+		free(read);
+	if (tmp)
+		free(tmp);
 	if (ret == 0)
 		free(rem);
 	else if (ret > 0)
