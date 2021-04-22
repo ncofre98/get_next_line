@@ -6,11 +6,23 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:59:25 by ncofre            #+#    #+#             */
-/*   Updated: 2021/04/07 17:03:58 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/04/22 17:36:29 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	ft_bzero(void *s, size_t n)
+{
+	size_t i;
+
+	i = 0;
+	while (i < n)
+	{
+		*(char*)(s + i) = '\0';
+		i++;
+	}
+}
 
 void    *ft_memcpy(void *dest, const void *src, size_t n)
 {
@@ -34,7 +46,6 @@ size_t          ft_strlen(const char *s)
 		i++;
 	return (i);
 }
-
 
 size_t          ft_strlcpy(char *dst, const char *src, size_t size)
 {
@@ -83,7 +94,7 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char		*ft_strjoin(char const *s1, char const *s2)
+char		*gnl_strjoin(char const *s1, char const *s2)
 {
 	char	*ptr;
 	size_t	s1_len;
@@ -96,10 +107,11 @@ char		*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	ft_memcpy(ptr, s1, s1_len + 1);
 	ft_strlcat(ptr, s2, s1_len + s2_len + 1);
+	free(s1);
 	return (ptr);
 }
 
-char				*ft_substr(char const *s, unsigned int start, size_t len)
+char				*gnl_substr(char const *s, unsigned int start, size_t len)
 {
 	char			*ptr;
 	unsigned int	end;
@@ -120,6 +132,72 @@ char				*ft_substr(char const *s, unsigned int start, size_t len)
 			start++;
 		}
 		ptr[i] = '\0';
+		free(s);
 	}
+	return (ptr);
+}
+
+void	gnl_split(char *rem, char **line)
+{
+	unsigned int	start;
+	unsigned int	end;
+
+	end = -1;
+	while (rem[++end])
+	{
+		if (!start && rem[end] != '\n')
+			start = end;
+		if (start && rem[end + 1] == '\n')
+			break;
+	}
+	if (start && end && (start != end))
+	{
+		*line = gnl_substr(rem, start, end++ - start);
+		if (rem[end] && gnl_haschars(&(rem[end])))
+			rem = gnl_substr(rem, end, ft_strlen(rem) - end);
+	}
+	free(rem);
+}
+
+int	gnl_ret(int ret, char *line, char *read, char *tmp, static char *rem)
+{
+	if (line)
+		free(line);
+	if (read)
+		free(read);
+	if (tmp)
+		free(tmp);
+	if (ret == 0)
+		free(rem);
+	else if (ret > 0)
+		return (1)
+	else
+		return (-1);
+}
+
+/*
+**Returns 1 if any character different from '\n' is found in the string,
+**otherwise it returns 0.
+*/
+
+int	gnl_haschars(char *str)
+{
+	while (*str)
+		if (*str != '\n')
+			return (1);
+	return (0);
+}
+
+/*
+**This version of malloc allocates a char*, NUL-terminating the last byte
+*/
+
+char	*scmalloc(size_t size)
+{
+	char	*ptr;
+
+	if (!(ptr = (char*)malloc(sizeof(char) * size)) || size <= 0)
+		return (NULL);
+	ptr[size - 1] = '\0';
 	return (ptr);
 }
