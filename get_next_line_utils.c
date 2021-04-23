@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:59:25 by ncofre            #+#    #+#             */
-/*   Updated: 2021/04/22 17:36:29 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/04/22 19:41:14 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char		*gnl_strjoin(char const *s1, char const *s2)
+char		*gnl_strjoin(char *s1, char const *s2)
 {
 	char	*ptr;
 	size_t	s1_len;
@@ -111,7 +111,7 @@ char		*gnl_strjoin(char const *s1, char const *s2)
 	return (ptr);
 }
 
-char				*gnl_substr(char const *s, unsigned int start, size_t len)
+char				*gnl_substr(char *s, unsigned int start, size_t len)
 {
 	char			*ptr;
 	unsigned int	end;
@@ -157,22 +157,6 @@ void	gnl_split(char *rem, char **line)
 			rem = gnl_substr(rem, end, ft_strlen(rem) - end);
 	}
 	free(rem);
-}
-
-int	gnl_ret(int ret, char *line, char *read, char *tmp, static char *rem)
-{
-	if (line)
-		free(line);
-	if (read)
-		free(read);
-	if (tmp)
-		free(tmp);
-	if (ret == 0)
-		free(rem);
-	else if (ret > 0)
-		return (1)
-	else
-		return (-1);
 }
 
 /*
