@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:59:25 by ncofre            #+#    #+#             */
-/*   Updated: 2021/04/22 19:41:14 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/04/26 10:02:21 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,31 +132,47 @@ char				*gnl_substr(char *s, unsigned int start, size_t len)
 			start++;
 		}
 		ptr[i] = '\0';
-		free(s);
 	}
 	return (ptr);
 }
 
-void	gnl_split(char *rem, char **line)
+static	void gnl_split_init(unsigned int *start, unsigned int *end)
+{
+	*start = 0;
+	*end = -1;
+}
+
+void	gnl_split(char **rem, char **line)
 {
 	unsigned int	start;
 	unsigned int	end;
+	char			*tmp;
 
-	end = -1;
-	while (rem[++end])
+	gnl_split_init(&start, &end);
+	while (*(*rem + ++end))
 	{
-		if (!start && rem[end] != '\n')
+		if (!start && *(*rem + end) != '\n')
 			start = end;
-		if (start && rem[end + 1] == '\n')
+		if (start && *(*rem + end) == '\n')
 			break;
 	}
 	if (start && end && (start != end))
 	{
-		*line = gnl_substr(rem, start, end++ - start);
-		if (rem[end] && gnl_haschars(&(rem[end])))
-			rem = gnl_substr(rem, end, ft_strlen(rem) - end);
+		if (*line)
+			free(*line);
+		*line = gnl_substr(*rem, start, end++ - start);
+		if (*rem + end && gnl_haschars(&(*(*rem + end))))
+		{
+			tmp = *rem;
+			*rem = gnl_substr(*rem, end, ft_strlen(*rem) - end);
+			free(tmp);
+		}
+		else
+		{
+			free(*rem);
+			*rem = NULL;
+		}
 	}
-	free(rem);
 }
 
 /*
