@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:59:25 by ncofre            #+#    #+#             */
-/*   Updated: 2021/04/26 10:02:21 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/04/26 19:48:09 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ char		*gnl_strjoin(char *s1, char const *s2)
 	return (ptr);
 }
 
-char				*gnl_substr(char *s, unsigned int start, size_t len)
+char				*gnl_substr(char *s, unsigned int start, size_t len, int fr)
 {
 	char			*ptr;
 	unsigned int	end;
@@ -132,6 +132,8 @@ char				*gnl_substr(char *s, unsigned int start, size_t len)
 			start++;
 		}
 		ptr[i] = '\0';
+		if (fr == 1 && *s)
+			free(s);
 	}
 	return (ptr);
 }
@@ -139,39 +141,33 @@ char				*gnl_substr(char *s, unsigned int start, size_t len)
 static	void gnl_split_init(unsigned int *start, unsigned int *end)
 {
 	*start = 0;
-	*end = -1;
+	*end = 0;
 }
 
 void	gnl_split(char **rem, char **line)
 {
 	unsigned int	start;
 	unsigned int	end;
-	char			*tmp;
 
 	gnl_split_init(&start, &end);
-	while (*(*rem + ++end))
-	{
-		if (!start && *(*rem + end) != '\n')
-			start = end;
-		if (start && *(*rem + end) == '\n')
+	while (*(*rem + end))
+		if (*(*rem + end++) != '\n')
+		{
+			start = --end;
 			break;
-	}
-	if (start && end && (start != end))
+		}
+	while (*(*rem + ++end))
+		if (*(*rem + end) == '\n')
+			break;
+	if (*line)
+		free(*line);
+	*line = gnl_substr(*rem, start, end++ - start, 0);
+	if (*rem + end && gnl_haschars(&(*(*rem + end))))
+		*rem = gnl_substr(*rem, end, ft_strlen(*rem) - end, 1);
+	else
 	{
-		if (*line)
-			free(*line);
-		*line = gnl_substr(*rem, start, end++ - start);
-		if (*rem + end && gnl_haschars(&(*(*rem + end))))
-		{
-			tmp = *rem;
-			*rem = gnl_substr(*rem, end, ft_strlen(*rem) - end);
-			free(tmp);
-		}
-		else
-		{
-			free(*rem);
-			*rem = NULL;
-		}
+		free(*rem);
+		*rem = NULL;
 	}
 }
 
