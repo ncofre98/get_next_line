@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:59:25 by ncofre            #+#    #+#             */
-/*   Updated: 2021/04/26 19:48:09 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/04/27 19:47:59 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,15 +173,23 @@ void	gnl_split(char **rem, char **line)
 
 /*
 **Returns 1 if any character different from '\n' is found in the string,
+**Returns 2 if there are at least one character before the newline,
 **otherwise it returns 0.
 */
 
 int	gnl_haschars(char *str)
 {
+	int	ch;
+
+	ch = 0;
 	while (*str)
+	{
 		if (*str != '\n')
-			return (1);
-	return (0);
+			ch = 1;
+		if (*str++ == '\n' && ch == 1)
+			ch = 2;
+	}
+	return (ch);
 }
 
 /*
