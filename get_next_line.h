@@ -11,7 +11,7 @@ size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 char	*ft_strchr(const char *s, int c);
-char	*gnl_strjoin(char *s1, char const *s2);
+char	*gnl_strjoin(char *s1, char const *s2, int ln);
 char	*gnl_substr(char *s, unsigned int start, size_t len, int fr);
 void	gnl_split(char **rem, char **line);
 int	gnl_haschars(char *str);

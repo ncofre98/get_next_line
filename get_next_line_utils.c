@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:59:25 by ncofre            #+#    #+#             */
-/*   Updated: 2021/04/27 19:47:59 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/04/28 10:14:23 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,19 +65,6 @@ size_t          ft_strlcpy(char *dst, const char *src, size_t size)
 	return (src_length);
 }
 
-size_t		ft_strlcat(char *dst, const char *src, size_t size)
-{
-	size_t	src_len;
-	size_t	dst_len;
-
-	src_len = ft_strlen(src);
-	dst_len = ft_strlen(dst);
-	if (size < dst_len)
-		return (src_len + size);
-	ft_strlcpy(dst + dst_len, src, size - dst_len);
-	return (src_len + dst_len);
-}
-
 char	*ft_strchr(const char *s, int c)
 {
 	size_t i;
@@ -94,7 +81,18 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char		*gnl_strjoin(char *s1, char const *s2)
+static int	nl_pos(const char *str)
+{
+	int i;
+
+	i = -1;
+	while (str[++i])
+		if (str[i] == '\n')
+			break;
+	return (i);
+}
+
+char		*gnl_strjoin(char *s1, char const *s2, int ln)
 {
 	char	*ptr;
 	size_t	s1_len;
@@ -106,10 +104,32 @@ char		*gnl_strjoin(char *s1, char const *s2)
 	if (!ptr)
 		return (NULL);
 	ft_memcpy(ptr, s1, s1_len + 1);
-	ft_strlcat(ptr, s2, s1_len + s2_len + 1);
+	if (ln)
+		ft_memcpy(&(ptr[s1_len]), s2, nl_pos(s2));
+	else
+		ft_memcpy(&(ptr[s1_len]), s2, s2_len + 1);
+	ptr[s1_len + s2_len + 1] = '\0';
 	free(s1);
 	return (ptr);
 }
+
+/*void		gnl_check_or_join_buf_rem(char **buf, char **rem, char **line)
+{
+	int	ret;
+
+	ret = gnl_haschars(*buf);
+	if (ret == 1)
+	{
+		*rem = *buf;
+		free(*buf);
+	}
+	else if (ret == 2)
+	{
+		;
+	}
+	else
+		free(*buf);
+		}*/
 
 char				*gnl_substr(char *s, unsigned int start, size_t len, int fr)
 {
@@ -184,10 +204,15 @@ int	gnl_haschars(char *str)
 	ch = 0;
 	while (*str)
 	{
+		if (*str == '\n' && !ch)
+			break;
 		if (*str != '\n')
 			ch = 1;
-		if (*str++ == '\n' && ch == 1)
+		if (*str == '\n' && ch == 1)
+		{
 			ch = 2;
+			break;
+		}
 	}
 	return (ch);
 }
