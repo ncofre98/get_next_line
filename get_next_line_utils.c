@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:59:25 by ncofre            #+#    #+#             */
-/*   Updated: 2021/04/28 10:45:24 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/04/28 12:15:15 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,18 +87,24 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-/*
-static int	nl_pos(const char *str)
+static int	char_after_nline(const char *str)
 {
 	int i;
+	int c;
 
 	i = -1;
+	c = -1;
 	while (str[++i])
 		if (str[i] == '\n')
 			break;
-	return (i);
+	while (str[++i])
+		if (str[i] != '\n')
+		{
+			c = i;
+			break;
+		}
+	return (c);
 }
-*/
 
 char		*gnl_strjoin(char *s1, char const *s2, int ln)
 {
@@ -121,23 +127,31 @@ char		*gnl_strjoin(char *s1, char const *s2, int ln)
 	return (ptr);
 }
 
-/*void		gnl_check_or_join_buf_rem(char **buf, char **rem, char **line)
-{
-	int	ret;
+/*
+**Returns 1 if any character different from '\n' is found in the string,
+**Returns 2 if there are at least one character before the newline,
+**otherwise it returns 0.
+*/
 
-	ret = gnl_haschars(*buf);
-	if (ret == 1)
+static	int	gnl_haschars(char *str)
+{
+	int	ch;
+
+	ch = 0;
+	while (*str)
 	{
-		*rem = *buf;
-		free(*buf);
+		if (*str == '\n' && !ch)
+			break;
+		if (*str != '\n')
+			ch = 1;
+		if (*str == '\n' && ch == 1)
+		{
+			ch = 2;
+			break;
+		}
 	}
-	else if (ret == 2)
-	{
-		;
-	}
-	else
-		free(*buf);
-		}*/
+	return (ch);
+}
 
 static	char		*gnl_substr(char *s, unsigned int start, size_t len, int fr)
 {
@@ -166,30 +180,21 @@ static	char		*gnl_substr(char *s, unsigned int start, size_t len, int fr)
 	return (ptr);
 }
 
-/*
-**Returns 1 if any character different from '\n' is found in the string,
-**Returns 2 if there are at least one character before the newline,
-**otherwise it returns 0.
-*/
-
-static	int	gnl_haschars(char *str)
+void		gnl_check_and_or_join(char **buf, char **rem, char **line)
 {
-	int	ch;
+	int	ret;
+	int	char_pos;
 
-	ch = 0;
-	while (*str)
+	ret = gnl_haschars(*buf);
+	if (ret == 0 || ret == 1)
+		*rem = *buf;
+	else if (ret == 2)
 	{
-		if (*str == '\n' && !ch)
-			break;
-		if (*str != '\n')
-			ch = 1;
-		if (*str == '\n' && ch == 1)
-		{
-			ch = 2;
-			break;
-		}
+		*line = gnl_strjoin(*line, *buf, 1);
+		char_pos = char_after_nline(*rem);
+		*rem = gnl_substr(*rem, char_pos, ft_strlen(*rem, 0) - char_pos + 1, 1);
+		free(*buf);
 	}
-	return (ch);
 }
 
 static	void gnl_split_init(unsigned int *start, unsigned int *end)
