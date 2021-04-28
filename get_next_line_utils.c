@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:59:25 by ncofre            #+#    #+#             */
-/*   Updated: 2021/04/28 12:15:15 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/04/28 18:38:08 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,13 @@ static	void    *ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-static	size_t          ft_strlen(const char *s, int ln)
+
+/* In this version of strlen, if ln == 0 works as usual,
+** otherwise it will count before the '\n' character is reached.
+** Everything else remains the same.
+*/
+
+static	size_t          gnl_strlen(const char *s, int ln)
 {
 	size_t i;
 
@@ -51,33 +57,13 @@ static	size_t          ft_strlen(const char *s, int ln)
 	return (i);
 }
 
-/*
-static	size_t          ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t i;
-	size_t src_length;
-
-	src_length = ft_strlen(src, 0);
-	if (size == 0)
-		return (src_length);
-	i = 0;
-	while (i < size - 1 && src[i])
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (src_length);
-}
-*/
-
 char	*ft_strchr(const char *s, int c)
 {
 	size_t i;
 
 	i = 0;
 	if (c == '\0')
-		return ((char*)&s[ft_strlen(s, 0)]);
+		return ((char*)&s[gnl_strlen(s, 0)]);
 	while (s[i])
 	{
 		if (s[i] == c)
@@ -106,24 +92,32 @@ static int	char_after_nline(const char *str)
 	return (c);
 }
 
-char		*gnl_strjoin(char *s1, char const *s2, int ln)
+/* In this version of strjoin, if ln != 0, the length of src will
+** be counted before '\n' is reached.
+** The joined string will be a combination of the complete string of dst and
+** the first src_len bytes of src.
+** dst will be freed at the end.
+** Everything else remains the same.
+*/
+
+char		*gnl_strjoin(char *dst, char const *src, int ln)
 {
 	char	*ptr;
-	size_t	s1_len;
-	size_t	s2_len;
+	size_t	dst_len;
+	size_t	src_len;
 
-	s1_len = ft_strlen(s1, 0);
+	dst_len = gnl_strlen(dst, 0);
 	if (ln)
-		s2_len = ft_strlen(s2, 1);
+		src_len = gnl_strlen(src, 1);
 	else
-		s2_len = ft_strlen(s2, 0);
-	ptr = (char*)malloc(sizeof(char) * (s1_len + s2_len + 1));
+		src_len = gnl_strlen(src, 0);
+	ptr = (char*)malloc(sizeof(char) * (dst_len + src_len + 1));
 	if (!ptr)
 		return (NULL);
-	ft_memcpy(ptr, s1, s1_len + 1);
-	ft_memcpy(&(ptr[s1_len]), s2, s2_len + 1);
-	ptr[s1_len + s2_len + 1] = '\0';
-	free(s1);
+	ft_memcpy(ptr, dst, dst_len + 1);
+	ft_memcpy(&(ptr[dst_len]), src, src_len + 1);
+	ptr[dst_len + src_len + 1] = '\0';
+	free(dst);
 	return (ptr);
 }
 
@@ -153,6 +147,10 @@ static	int	gnl_haschars(char *str)
 	return (ch);
 }
 
+/* In this version of substr if fr == 1 then s will be freed at the end
+** Everything else remains the same.
+ */
+
 static	char		*gnl_substr(char *s, unsigned int start, size_t len, int fr)
 {
 	char			*ptr;
@@ -161,7 +159,7 @@ static	char		*gnl_substr(char *s, unsigned int start, size_t len, int fr)
 
 	if (!(ptr = (char*)malloc(sizeof(char) * len + 1)))
 		return (NULL);
-	if (start >= ft_strlen(s, 0))
+	if (start >= gnl_strlen(s, 0))
 		ft_bzero(ptr, len + 1);
 	else
 	{
@@ -183,7 +181,7 @@ static	char		*gnl_substr(char *s, unsigned int start, size_t len, int fr)
 void		gnl_check_and_or_join(char **buf, char **rem, char **line)
 {
 	int	ret;
-	int	char_pos;
+	int	ch_pos;
 
 	ret = gnl_haschars(*buf);
 	if (ret == 0 || ret == 1)
@@ -191,8 +189,8 @@ void		gnl_check_and_or_join(char **buf, char **rem, char **line)
 	else if (ret == 2)
 	{
 		*line = gnl_strjoin(*line, *buf, 1);
-		char_pos = char_after_nline(*rem);
-		*rem = gnl_substr(*rem, char_pos, ft_strlen(*rem, 0) - char_pos + 1, 1);
+		ch_pos = char_after_nline(*rem);
+		*rem = gnl_substr(*rem, ch_pos, gnl_strlen(*rem, 0) - ch_pos + 1, 1);
 		free(*buf);
 	}
 }
@@ -222,7 +220,7 @@ void	gnl_split(char **rem, char **line)
 		free(*line);
 	*line = gnl_substr(*rem, start, end++ - start, 0);
 	if (*rem + end && gnl_haschars(&(*(*rem + end))))
-		*rem = gnl_substr(*rem, end, ft_strlen(*rem, 0) - end, 1);
+		*rem = gnl_substr(*rem, end, gnl_strlen(*rem, 0) - end, 1);
 	else
 	{
 		free(*rem);
