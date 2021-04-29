@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:59:25 by ncofre            #+#    #+#             */
-/*   Updated: 2021/04/28 18:38:08 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/04/28 19:44:05 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ char		*gnl_strjoin(char *dst, char const *src, int ln)
 	if (!ptr)
 		return (NULL);
 	ft_memcpy(ptr, dst, dst_len + 1);
-	ft_memcpy(&(ptr[dst_len]), src, src_len + 1);
+	ft_memcpy(&(ptr[dst_len]), src, src_len);
 	ptr[dst_len + src_len + 1] = '\0';
 	free(dst);
 	return (ptr);
@@ -138,7 +138,7 @@ static	int	gnl_haschars(char *str)
 			break;
 		if (*str != '\n')
 			ch = 1;
-		if (*str == '\n' && ch == 1)
+		if (*str++ == '\n' && ch == 1)
 		{
 			ch = 2;
 			break;
@@ -189,9 +189,8 @@ void		gnl_check_and_or_join(char **buf, char **rem, char **line)
 	else if (ret == 2)
 	{
 		*line = gnl_strjoin(*line, *buf, 1);
-		ch_pos = char_after_nline(*rem);
-		*rem = gnl_substr(*rem, ch_pos, gnl_strlen(*rem, 0) - ch_pos + 1, 1);
-		free(*buf);
+		ch_pos = char_after_nline(*buf);
+		*rem = gnl_substr(*buf, ch_pos, gnl_strlen(*buf, 0) - ch_pos + 1, 1);
 	}
 }
 
@@ -216,8 +215,6 @@ void	gnl_split(char **rem, char **line)
 	while (*(*rem + ++end))
 		if (*(*rem + end) == '\n')
 			break;
-	if (*line)
-		free(*line);
 	*line = gnl_substr(*rem, start, end++ - start, 0);
 	if (*rem + end && gnl_haschars(&(*(*rem + end))))
 		*rem = gnl_substr(*rem, end, gnl_strlen(*rem, 0) - end, 1);

@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 20:00:24 by ncofre            #+#    #+#             */
-/*   Updated: 2021/04/28 11:35:37 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/04/28 19:45:14 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int				get_next_line(int fd, char **line)
 	char			*buf;
 	int			ret;
 
+	if (*line)
+		free(*line);
 	if ((ret = 1) && rem)
 		gnl_split(&rem, line);
 	else
