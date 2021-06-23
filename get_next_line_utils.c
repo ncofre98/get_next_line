@@ -6,11 +6,20 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:59:25 by ncofre            #+#    #+#             */
-/*   Updated: 2021/06/10 21:37:22 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/06/22 10:28:01 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	free_null(char **ptr)
+{
+	if (*ptr)
+	{
+		free(*ptr);
+		*ptr = NULL;
+	}
+}
 
 static	void	ft_bzero(void *s, size_t n)
 {
@@ -48,6 +57,8 @@ static	size_t          gnl_strlen(const char *s, int ln)
 	size_t i;
 
 	i = 0;
+	if (!s)
+		return (0);
 	if (ln)
 		while (s && s[i] && s[i] != '\n')
 			i++;
@@ -114,9 +125,10 @@ char		*gnl_strjoin(char *dst, char const *src, int ln)
 	ptr = (char*)malloc(sizeof(char) * (dst_len + src_len + 1));
 	if (!ptr)
 		return (NULL);
-	ft_memcpy(ptr, dst, dst_len + 1);
+	if (dst_len > 0)
+		ft_memcpy(ptr, dst, dst_len + 1);
 	ft_memcpy(&(ptr[dst_len]), src, src_len);
-	ptr[dst_len + src_len + 1] = '\0';
+	ptr[dst_len + src_len] = '\0';
 	free(dst);
 	return (ptr);
 }
@@ -134,7 +146,7 @@ static	int	gnl_haschars(char *str)
 	ch = 0;
 	while (*str)
 	{
-		if (*str == '\n' && !ch)
+		if (*str == '\n' && ch == 0)
 			break;
 		if (*str != '\n')
 			ch = 1;
@@ -178,15 +190,19 @@ static	char		*gnl_substr(char *s, unsigned int start, size_t len, int fr)
 	return (ptr);
 }
 
-void		gnl_check_and_or_join(char **buf, char **rem, char **line)
+void		gnl_check_and_or_join(char **buf, char **rem, char **line, int retg)
 {
 	int	ret;
 	int	ch_pos;
 
+	if (retg == 0)
+		free(*buf);
 	ret = gnl_haschars(*buf);
-	if (ret == 0 || ret == 1)
+	if (ret == 0)
+		free(*buf);
+	else if (ret == 1)
 		*rem = *buf;
-	else if (ret == 2)
+	else
 	{
 		*line = gnl_strjoin(*line, *buf, 1);
 		ch_pos = char_after_nline(*buf);

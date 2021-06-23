@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 20:00:24 by ncofre            #+#    #+#             */
-/*   Updated: 2021/06/10 18:23:17 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/06/22 12:28:35 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,17 @@ int				get_next_line(int fd, char **line)
 	char			*buf;
 	int			ret;
 
+	free_null(line);
 	if ((ret = 1) && rem)
 		gnl_split(&rem, line);
 	else
 	{
 		if (!(buf = scmalloc(BUFFER_SIZE + 1)))
 			return (-1);
-		while ((ret = read(fd, buf, BUFFER_SIZE)) >= 0 &&
+		while ((ret = read(fd, buf, BUFFER_SIZE)) > 0 &&
 		   (!(ft_strchr(buf, '\n'))))
 			*line = gnl_strjoin(*line, buf, 0);
-		gnl_check_and_or_join(&buf, &rem, line);
+		gnl_check_and_or_join(&buf, &rem, line, ret);
 	}
 	if (ret > 0)
 		ret = 1;
