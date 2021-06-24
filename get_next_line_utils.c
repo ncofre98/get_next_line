@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:59:25 by ncofre            #+#    #+#             */
-/*   Updated: 2021/06/22 10:28:01 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/06/24 13:31:51 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,21 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
+/*
+** This function returns a pointer to the first ocurrence of !c,
+** otherwise, it returns NULL.
+*/
+static	char	*ft_nstrchr(const char *str, int c)
+{
+	size_t	i;
+
+	i = -1;
+	while (str[++i])
+		if (str[i] != c)
+			return ((char*)&str[i]);
+	return (NULL);
+}
+
 static int	char_after_nline(const char *str)
 {
 	int i;
@@ -134,29 +149,18 @@ char		*gnl_strjoin(char *dst, char const *src, int ln)
 }
 
 /*
-**Returns 1 if any character different from '\n' is found in the string,
+**Returns 1 if there is at least one character after the newline,
 **Returns 2 if there are at least one character before the newline,
 **otherwise it returns 0.
 */
 
 static	int	gnl_haschars(char *str)
 {
-	int	ch;
-
-	ch = 0;
-	while (*str)
-	{
-		if (*str == '\n' && ch == 0)
-			break;
-		if (*str != '\n')
-			ch = 1;
-		if (*str++ == '\n' && ch == 1)
-		{
-			ch = 2;
-			break;
-		}
-	}
-	return (ch);
+	if (!ft_nstrchr(str, '\n'))
+		return (0);
+	if (*str == '\n')
+		return (1);
+	return (2);
 }
 
 /* In this version of substr if fr == 1 then s will be freed at the end
@@ -196,7 +200,10 @@ void		gnl_check_and_or_join(char **buf, char **rem, char **line, int retg)
 	int	ch_pos;
 
 	if (retg == 0)
+	{
 		free(*buf);
+		return;
+	}
 	ret = gnl_haschars(*buf);
 	if (ret == 0)
 		free(*buf);
