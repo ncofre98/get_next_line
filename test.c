@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 20:04:30 by ncofre            #+#    #+#             */
-/*   Updated: 2021/04/23 12:32:44 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/06/22 12:29:17 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ int	main(void)
 		printf("An error ocurred while opening the fd");
 		return (-1);
 	}
-
-	ret = get_next_line(fd, &line);
-	printf("%s", line);
-
+	ret = 1;
+	while (ret != 0)
+	{
+		ret = get_next_line(fd, &line);
+		printf("%s\n", line);
+	}
 	printf("\n");
 	printf("%i\n", ret);
 	free(line);
