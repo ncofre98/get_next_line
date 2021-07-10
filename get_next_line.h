@@ -5,11 +5,10 @@
 #include <stdlib.h>
 
 int	get_next_line(int fd, char **line);
-char	*gnl_strjoin(char *dst, char const *src, int ln);
-void	gnl_split(char **rem, char **line);
-char	*scmalloc(size_t size);
-char	*ft_strchr(const char *s, int c);
-void	gnl_check_and_or_join(char **buf, char **rem, char **line, int retg);
+int	has_return(const char *s);
+char	*gnl_strjoin(char *dst, char const *src);
+char	*get_line(char **rem);
+void	*ft_calloc(size_t nmemb, size_t size);
 void	free_null(char **ptr);
 
 #endif
