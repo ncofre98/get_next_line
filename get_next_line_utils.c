@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:59:25 by ncofre            #+#    #+#             */
-/*   Updated: 2021/07/10 15:42:32 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/07/10 20:18:52 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,10 +142,10 @@ char		*get_line(char **rem)
 	tmp = *rem;
 	while (tmp[end] && tmp[end] != '\n')
 		end++;
-	line = gnl_substr(*rem, 0, end, 0);
+	line = gnl_substr(*rem, 0, ++end, 0);
 	if (!has_return(*rem))
 		free_null(rem);
 	else
-		*rem = gnl_substr(*rem, end + 1, ft_strlen(*rem) - end + 1, 1);
+		*rem = gnl_substr(*rem, end, ft_strlen(*rem) - end, 1);
 	return (line);
 }

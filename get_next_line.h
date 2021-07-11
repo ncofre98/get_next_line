@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-int	get_next_line(int fd, char **line);
+char	*get_next_line(int fd);
 int	has_return(const char *s);
 char	*gnl_strjoin(char *dst, char const *src);
 char	*get_line(char **rem);
