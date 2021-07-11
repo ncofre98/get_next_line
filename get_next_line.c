@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 20:00:24 by ncofre            #+#    #+#             */
-/*   Updated: 2021/07/10 20:41:54 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/07/11 12:37:15 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,55 @@
 ** unless you have reached end of file and there is no '\n'.
 */
 
-char				*get_next_line(int fd)
+int	has_return(const char *s)
+{
+	if (!s)
+		return (0);
+	while (*s)
+		if (*s++ == '\n')
+			return (1);
+	return (0);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		*(char*)(s + i) = '\0';
+		i++;
+	}
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void		*ptr;
+	long int	total_size;
+
+	total_size = nmemb * size;
+	ptr = malloc(total_size);
+	if (!ptr)
+		return (NULL);
+	ft_bzero(ptr, total_size);
+	return (ptr);
+}
+
+char	*get_next_line(int fd)
 {
 	static char	*rem;
-	char			*buf;
+	char		*buf;
 	int			ret;
 
 	ret = 1;
-	if (BUFFER_SIZE <= 0 || fd < 0 ||
-		!(buf = (char*)ft_calloc(1, sizeof(char) * (BUFFER_SIZE + 1))))
+	buf = (char*)ft_calloc(1, sizeof(char) * (BUFFER_SIZE + 1));
+	if (BUFFER_SIZE <= 0 || fd < 0 || !buf)
 		return (NULL);
 	while (!has_return(rem) && ret != 0)
 	{
-		if ((ret = read(fd, buf, BUFFER_SIZE)) == -1)
+		ret = read(fd, buf, BUFFER_SIZE);
+		if (ret == -1)
 		{
 			free(buf);
 			return (NULL);
