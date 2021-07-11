@@ -9,6 +9,5 @@ int	has_return(const char *s);
 char	*gnl_strjoin(char *dst, char const *src);
 char	*get_line(char **rem);
 void	*ft_calloc(size_t nmemb, size_t size);
-void	free_null(char **ptr);
 
 #endif

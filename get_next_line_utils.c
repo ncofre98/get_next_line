@@ -6,13 +6,13 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:59:25 by ncofre            #+#    #+#             */
-/*   Updated: 2021/07/10 20:18:52 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/07/10 20:30:23 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	free_null(char **ptr)
+static void	free_null(char **ptr)
 {
 	if (*ptr)
 	{

@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 20:00:24 by ncofre            #+#    #+#             */
-/*   Updated: 2021/07/10 19:59:18 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/07/10 20:41:54 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 **DESCRIPTION:
-**	Write a function which returns a line read from a file descriptor.
+** Write a function which returns a line read from a file descriptor.
 **PARAMETERS:
 ** File descriptor to read from
 **RETURN VALUE:
@@ -32,7 +32,8 @@ char				*get_next_line(int fd)
 	int			ret;
 
 	ret = 1;
-	if (BUFFER_SIZE <= 0 || fd < 0 || !(buf = ft_calloc(1, BUFFER_SIZE + 1)))
+	if (BUFFER_SIZE <= 0 || fd < 0 ||
+		!(buf = (char*)ft_calloc(1, sizeof(char) * (BUFFER_SIZE + 1))))
 		return (NULL);
 	while (!has_return(rem) && ret != 0)
 	{
