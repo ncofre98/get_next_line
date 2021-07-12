@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 20:00:24 by ncofre            #+#    #+#             */
-/*   Updated: 2021/07/11 12:37:15 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/07/11 14:08:56 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,10 @@ char	*get_next_line(int fd)
 	int			ret;
 
 	ret = 1;
+	if (BUFFER_SIZE <= 0 || fd < 0)
+		return (NULL);
 	buf = (char*)ft_calloc(1, sizeof(char) * (BUFFER_SIZE + 1));
-	if (BUFFER_SIZE <= 0 || fd < 0 || !buf)
+	if (!buf)
 		return (NULL);
 	while (!has_return(rem) && ret != 0)
 	{
