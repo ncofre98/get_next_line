@@ -6,11 +6,15 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:59:25 by ncofre            #+#    #+#             */
-/*   Updated: 2021/07/11 12:35:58 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/07/12 13:03:00 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+/*
+**Returns the length of the string in bytes.
+*/
 
 static size_t	ft_strlen(const char *s)
 {
@@ -24,9 +28,12 @@ static size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-/* In this version of substr if fr == 1 then s will be freed at the end
-** Everything else remains the same.
- */
+/*
+**Allocates with malloc and returns a substring from the string s.
+**The substring begins at index start and is of maximum size len.
+**If fr == 1 then s will be freed at the end.
+**Returns NULL if the allocation fails.
+*/
 
 static	char	*gnl_substr(char *s, unsigned int start, size_t len, int fr)
 {
@@ -56,6 +63,12 @@ static	char	*gnl_substr(char *s, unsigned int start, size_t len, int fr)
 	return (ptr);
 }
 
+/*
+**This function copies n bytes from memory area src to memory area
+**dest. The memory areas must not overlap. Use ft_memmove() if the
+**memory areas do overlap.
+*/
+
 static void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	size_t	i;
@@ -70,6 +83,13 @@ static void	*ft_memcpy(void *dest, const void *src, size_t n)
 	}
 	return (dest);
 }
+
+/*
+**Allocates with malloc and returns a new string, which is the result of the
+**concatenation of s1 and s2.
+**
+**Returns NULL if the allocation fails.
+*/
 
 char	*gnl_strjoin(char *dst, char const *src)
 {
@@ -89,6 +109,15 @@ char	*gnl_strjoin(char *dst, char const *src)
 	free(dst);
 	return (ptr);
 }
+
+/*
+**Finds (if there is any) the first ocurrence of '\n'
+**and returns a freeable substring from 0 up to that byte.
+**
+**If there is any other '\n' after that, then it puts the remaining
+**in *rem, freeing the old *rem.
+**Otherwise it frees rem.
+*/
 
 char	*get_line(char **rem)
 {
