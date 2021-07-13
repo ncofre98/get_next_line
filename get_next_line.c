@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 20:00:24 by ncofre            #+#    #+#             */
-/*   Updated: 2021/07/12 12:49:31 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/07/13 05:14:13 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,6 @@ void	ft_bzero(void *s, size_t n)
 }
 
 /*
-**This function allocates memory for an array of nmemb elements of size bytes
-**each and returns a pointer to the allocated memory. The memory is set to
-**zero. If nmemb or size is 0, then ft_calloc() returns either NULL, or a
-**unique pointer value that can later be successfully passed to free().
-*/
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void		*ptr;
-	long int	total_size;
-
-	total_size = nmemb * size;
-	ptr = malloc(total_size);
-	if (!ptr)
-		return (NULL);
-	ft_bzero(ptr, total_size);
-	return (ptr);
-}
-
-/*
 **DESCRIPTION:
 ** Write a function which returns a line read from a file descriptor.
 **PARAMETERS:
@@ -87,7 +67,7 @@ char	*get_next_line(int fd)
 	ret = 1;
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	buf = (char*)ft_calloc(1, sizeof(char) * (BUFFER_SIZE + 1));
+	buf = (char*)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
 		return (NULL);
 	while (!has_return(rem) && ret != 0)
