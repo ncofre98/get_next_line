@@ -6,29 +6,39 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 20:00:24 by ncofre            #+#    #+#             */
-/*   Updated: 2021/07/13 05:14:13 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/07/13 22:17:53 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 /*
-**This function checks if there are any \n in the string and returns 1.
-**Otherwise it returns 0.
+**Returns a pointer to the first ocurrence of the character c in
+**the string s.
+**
+**Returns NULL if the character is not found.
 */
 
-int	has_return(const char *s)
+char	*ft_strchr(const char *s, int c)
 {
+	size_t	i;
+
+	i = 0;
 	if (!s)
-		return (0);
-	while (*s)
-		if (*s++ == '\n')
-			return (1);
-	return (0);
+		return (NULL);
+	if (c == '\0')
+		return ((char*)&s[ft_strlen(s)]);
+	while (s[i])
+	{
+		if (s[i] == c)
+			return ((char*)&s[i]);
+		i++;
+	}
+	return (NULL);
 }
 
 /*
-**This function erases the data in the n bytes of the memory starting
+**Erases the data in the n bytes of the memory starting
 **at the location pointed to by s, by writing zeros (bytes containing '\0')
 **to that area.
 */
@@ -70,7 +80,7 @@ char	*get_next_line(int fd)
 	buf = (char*)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
 		return (NULL);
-	while (!has_return(rem) && ret != 0)
+	while (!(ft_strchr(rem, '\n')) && ret != 0)
 	{
 		ret = read(fd, buf, BUFFER_SIZE);
 		if (ret == -1)
