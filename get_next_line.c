@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 20:00:24 by ncofre            #+#    #+#             */
-/*   Updated: 2021/07/13 22:17:53 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/07/13 22:32:14 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ char	*ft_strchr(const char *s, int c)
 	if (!s)
 		return (NULL);
 	if (c == '\0')
-		return ((char*)&s[ft_strlen(s)]);
+		return ((char *)&s[ft_strlen(s)]);
 	while (s[i])
 	{
 		if (s[i] == c)
-			return ((char*)&s[i]);
+			return ((char *)&s[i]);
 		i++;
 	}
 	return (NULL);
