@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 20:00:24 by ncofre            #+#    #+#             */
-/*   Updated: 2021/07/13 22:32:14 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/07/15 12:52:46 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,9 @@ char	*get_next_line(int fd)
 			return (NULL);
 		}
 		buf[ret] = '\0';
-		rem = gnl_strjoin(rem, buf);
+		if (ret != 0)
+			rem = gnl_strjoin(rem, buf);
 	}
 	free(buf);
-	if (ret == 0)
-		return (NULL);
 	return (get_line(&rem));
 }

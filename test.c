@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 20:04:30 by ncofre            #+#    #+#             */
-/*   Updated: 2021/07/10 20:04:50 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/07/15 13:18:11 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(void)
 	char *line;
 	int fd;
 
-	line = (char*)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	line = ft_strchr("dummy", 'd');
 	fd = open("example.txt", O_RDONLY);
 	if (fd == -1)
 	{
