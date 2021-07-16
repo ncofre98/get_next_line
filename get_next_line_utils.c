@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:59:25 by ncofre            #+#    #+#             */
-/*   Updated: 2021/07/16 16:13:13 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/07/16 18:26:01 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	if (!s)
-	  return (0);
+		return (0);
 	i = 0;
 	while (s[i])
 		i++;
