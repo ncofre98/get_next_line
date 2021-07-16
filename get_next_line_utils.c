@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:59:25 by ncofre            #+#    #+#             */
-/*   Updated: 2021/07/15 09:02:45 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/07/16 16:13:13 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	if (!s)
-		return (0);
+	  return (0);
 	i = 0;
 	while (s[i])
 		i++;
@@ -125,14 +125,14 @@ char	*get_line(char **rem)
 	char	*line;
 	char	*tmp;
 
-	if (!*rem)
+	tmp = *rem;
+	if (!tmp)
 		return (NULL);
 	end = 0;
-	tmp = *rem;
 	while (tmp[end] && tmp[end] != '\n')
 		end++;
 	line = gnl_substr(*rem, 0, ++end, 0);
-	if (ft_strlen(*rem + end) == 0)
+	if (end + 1 > ft_strlen(*rem))
 	{
 		free(*rem);
 		*rem = NULL;
