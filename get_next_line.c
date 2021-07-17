@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 20:00:24 by ncofre            #+#    #+#             */
-/*   Updated: 2021/07/16 16:07:28 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/07/17 01:25:53 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_bzero(void *s, size_t n)
 	i = 0;
 	while (i < n)
 	{
-		*(char*)(s + i) = '\0';
+		*(char *)(s + i) = '\0';
 		i++;
 	}
 }
@@ -77,7 +77,7 @@ char	*get_next_line(int fd)
 	ret = 1;
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	buf = (char*)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
 		return (NULL);
 	while (!(ft_strchr(rem, '\n')) && ret != 0)

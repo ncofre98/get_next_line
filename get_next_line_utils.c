@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:59:25 by ncofre            #+#    #+#             */
-/*   Updated: 2021/07/16 18:26:01 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/07/17 01:26:56 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static	char	*gnl_substr(char *s, unsigned int start, size_t len, int fr)
 	unsigned int	end;
 	unsigned int	i;
 
-	ptr = (char*)malloc(sizeof(char) * len + 1);
+	ptr = (char *)malloc(sizeof(char) * len + 1);
 	if (!ptr)
 		return (NULL);
 	if (start >= ft_strlen(s))
@@ -78,7 +78,7 @@ static void	*ft_memcpy(void *dest, const void *src, size_t n)
 		return (NULL);
 	while (i < n)
 	{
-		*(char*)(dest + i) = *(char*)(src + i);
+		*(char *)(dest + i) = *(char *)(src + i);
 		i++;
 	}
 	return (dest);
@@ -99,7 +99,7 @@ char	*gnl_strjoin(char *dst, char const *src)
 
 	dst_len = ft_strlen(dst);
 	src_len = ft_strlen(src);
-	ptr = (char*)malloc(sizeof(char) * (dst_len + src_len + 1));
+	ptr = (char *)malloc(sizeof(char) * (dst_len + src_len + 1));
 	if (!ptr)
 		return (NULL);
 	if (dst_len > 0)
