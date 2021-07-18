@@ -6,7 +6,7 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 19:30:10 by ncofre            #+#    #+#             */
-/*   Updated: 2021/07/17 19:30:17 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/07/17 20:03:37 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,17 @@ void	ft_bzero(void *s, size_t n)
 
 char	*get_next_line(int fd)
 {
-	static char	*rem;
+	static char	*rem[MAX_FD];
 	char		*buf;
 	int			ret;
 
 	ret = 1;
-	if (BUFFER_SIZE <= 0 || fd < 0)
+	if (BUFFER_SIZE <= 0 || fd < 0 || fd >= MAX_FD)
 		return (NULL);
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
 		return (NULL);
-	while (!(ft_strchr(rem, '\n')) && ret != 0)
+	while (!(ft_strchr(rem[fd], '\n')) && ret != 0)
 	{
 		ret = read(fd, buf, BUFFER_SIZE);
 		if (ret == -1)
@@ -90,8 +90,8 @@ char	*get_next_line(int fd)
 		}
 		buf[ret] = '\0';
 		if (ret != 0)
-			rem = gnl_strjoin(rem, buf);
+			rem[fd] = gnl_strjoin(rem[fd], buf);
 	}
 	free(buf);
-	return (get_line(&rem));
+	return (get_line(&rem[fd]));
 }

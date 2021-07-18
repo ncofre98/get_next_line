@@ -6,13 +6,13 @@
 /*   By: ncofre <ncofre@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 14:55:33 by ncofre            #+#    #+#             */
-/*   Updated: 2021/07/17 14:55:38 by ncofre           ###   ########.fr       */
+/*   Updated: 2021/07/17 20:03:01 by ncofre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-
+# define MAX_FD 1024
 # include <unistd.h>
 # include <stdlib.h>
 
